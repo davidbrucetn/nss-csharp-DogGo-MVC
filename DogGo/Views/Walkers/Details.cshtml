@@ -1,43 +1,78 @@
-﻿@model DogGo.Models.Walker
+﻿@model DogGo.Models.ViewModels.WalkerProfileViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container" style="font-family:Calibri; #f9f9f9"; height="100%">
 
-<div>
-    <h4>Walker</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NeighborhoodId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NeighborhoodId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd class="col-sm-10">
-            
-            <img src="@Model.ImageUrl" alt="avatar" />
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <h1 class="mb-4">Walker Profile</h1>
+
+    <section class="container">
+        <div  style="border-top-left-radius:25%;border-top-right-radius:25%;">
+            <img style="width:100px;float:left;margin-right:20px;border-radius:50%;box-shadow:rgb(128, 128, 128) 10px 10px 10px"
+                 src="@Model.Walker.ImageUrl" />
+        </div>
+        
+        <div>
+            <label class="font-weight-bold">Name:</label>
+            <span>@Model.Walker.Name</span>
+        </div>
+        <div>
+            <label class="font-weight-bold">Neighborhood:</label>
+            <span>@Model.Walker.Neighborhood.Name</span>
+        </div>
+
+    </section>
+
+    <hr class="mt-5" />
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <section class="col-8 container mt-5" style="background-color: #ffffff;">
+            <h1 class="text-left">Recent Walks</h1>
+
+            <div class="row">
+                <table width="100%" height="100%">
+                    <thead style="        color: gray;font-family: 'Arial', 'Helvetica', 'sans-serif';font-size: 1em">
+                    <td>
+                        <label class="font-weight-bold">Date</label>
+                    </td>
+
+                    <td>
+                        <label class="font-weight-bold">Client</label>
+                    </td>
+                    <td>
+                        <label class="font-weight-bold">Duration</label>
+                    </td>
+                    </thead>
+                    @foreach (Walk walk in Model.Walks)
+                    {
+                        <tr style="        font-size: .8em;
+        font-weight: 600;
+        border-bottom:1px solid lightgray; height:3em">
+                            <dt>
+
+                            </dt>
+                            <td>
+                                <span>@walk.Date.ToShortDateString()</span>
+                            </td>
+                            <td>
+                                <span>@walk.OwnerName</span>
+                            </td>
+                            <td>
+                                <span>@(TimeSpan.FromSeconds(walk.Duration).ToString(@"mm")) min</span>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </section>
+
+        <section class="col-lg-4 col-md-8 container mt-5" style="background-color: #f5f7fb;display:flex;flex:2">
+            <h5 style="padding-top:2em"><span style="color:gray">Total Walk Time: </span>@Model.TS.ToString(@"h'hr 'm'min'")</h5>
+
+
+        </section>
+    </div>
 </div>
