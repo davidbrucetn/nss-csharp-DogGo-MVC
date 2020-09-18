@@ -46,7 +46,16 @@
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
+                @if (String.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <img src="https://cdn.pixabay.com/photo/2018/08/15/13/12/dog-3608037_960_720.jpg"
+                         class="card-img-top"
+                         alt="Doggo" />
+                }
+                else
+                {
+                    <img src="@item.ImageUrl" class="card-img-top" alt="Doggo" />
+                }
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id  }) |
