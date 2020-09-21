@@ -7,3 +7,4 @@
 2. Completed Owner challenge with list of dogs.
 3. Added OwnerFormViewModel (Book 2, Ch 5, Ex 1)
 4. Added Walker/Details with Walks and formatting. (Book 2, Ch 5, Ex 2)
+5. Added Email-Only Authentication, (Book 2, Ch 6, Ex 1-3)
