@@ -200,7 +200,6 @@ namespace DogGo.Repositories
                         n.Id as NHId, n.Name as NHName
                         FROM Owner o
                         JOIN Neighborhood n on o.NeighborhoodId = n.Id
-                        FROM Owner
                         WHERE Email = @email";
 
                     cmd.Parameters.AddWithValue("@email", email);
