@@ -157,7 +157,60 @@ namespace DogGo.Repositories
             }
         }
 
-       
+        public Dog GetDogByDogIdOwnerId(int dogId, int ownerId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, [Name], Breed, Notes, ImageUrl, OwnerId
+                        FROM Dog
+                        WHERE Id = @dogId and OwnerId = @ownerId";
+
+                    cmd.Parameters.AddWithValue("@dogId", dogId);
+                    cmd.Parameters.AddWithValue("@ownerId", ownerId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Dog dog = new Dog()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Breed = reader.GetString(reader.GetOrdinal("Breed")),
+                            OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                            Notes = reader.IsDBNull(reader.GetOrdinal("Notes")) ? null : reader.GetString(reader.GetOrdinal("Notes")),
+                            ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
+                        };
+
+                        /*if (!reader.IsDBNull(reader.GetOrdinal("DogId")))
+                           {
+                            owner.Dogs.Add(new Dog()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("DogId")),
+                                Name = reader.GetString(reader.GetOrdinal("DogName")),
+                                Breed = reader.GetString(reader.GetOrdinal("Breed"))
+
+                            });
+                        }*/
+
+
+                        reader.Close();
+                        return dog;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        return null;
+                    }
+                }
+            }
+        }
+
+
         public void AddDog(Dog dog)
         {
             using (SqlConnection conn = Connection)
@@ -177,9 +230,9 @@ namespace DogGo.Repositories
                     cmd.Parameters.AddWithValue("@imageurl", dog.ImageUrl);
                     cmd.Parameters.AddWithValue("@ownerid", dog.OwnerId);
 
-                    int id = (int)cmd.ExecuteScalar();
+                    int newlyCreatedId = (int)cmd.ExecuteScalar();
 
-                    dog.Id = id;
+                    dog.Id = newlyCreatedId;
                 }
             }
         }

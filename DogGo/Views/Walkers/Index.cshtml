@@ -29,7 +29,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr style="height:200px">
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
@@ -40,7 +40,13 @@
                 @Html.DisplayFor(modelItem => item.NeighborhoodId)
             </td>
             <td>
-                <img src="@item.ImageUrl" alt="avatar" />
+                <div style="width: 7em;height:7em; padding: 1em 0;">
+                    <img src="@item.ImageUrl" alt="avatar" style="        width: 100%;
+        max-height: 100%;
+        border-radius: 50%;
+        box-shadow: rgb(128, 128, 128) 10px 10px 10px" />
+                </div>
+                
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
