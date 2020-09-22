@@ -72,7 +72,7 @@ namespace DogGo.Controllers
             return View(vm);
         }
 
-        // GET: Owners/Create
+        // GET: Walkers/Create
         public ActionResult Create()
         {
             List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
