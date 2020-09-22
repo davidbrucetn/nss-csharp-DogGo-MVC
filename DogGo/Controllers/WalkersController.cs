@@ -11,20 +11,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DogGo.Controllers
 {
-    
+
     public class WalkersController : Controller
     {
         private readonly IWalkerRepository _walkerRepo;
         private readonly IWalkRepository _walkRepo;
         private readonly IOwnerRepository _ownerRepo;
+        private readonly INeighborhoodRepository _neighborhoodRepo;
 
         // ASP.NET will give us an instance of our Walker Repository. 
         // This is called "Dependency Injection"
-        public WalkersController(IWalkerRepository walkerRepository, IWalkRepository walkRepository, IOwnerRepository ownerRepository)
+        public WalkersController(IWalkerRepository walkerRepository, IWalkRepository walkRepository, IOwnerRepository ownerRepository, INeighborhoodRepository neighborhoodRepository)
         {
             _walkerRepo = walkerRepository;
             _walkRepo = walkRepository;
             _ownerRepo = ownerRepository;
+            _neighborhoodRepo = neighborhoodRepository;
         }
         // GET: Walkers
         public IActionResult Index()
@@ -51,7 +53,7 @@ namespace DogGo.Controllers
 
             List<Walk> walks = _walkRepo.GetAllWalks(id);
             int TotalTime = 0;
-            foreach(Walk walk in walks) { TotalTime += walk.Duration; };
+            foreach (Walk walk in walks) { TotalTime += walk.Duration; };
             TimeSpan ts = TimeSpan.FromSeconds(TotalTime);
 
 
@@ -64,10 +66,72 @@ namespace DogGo.Controllers
                 Walks = walks,
                 TotalTime = TotalTime,
                 TS = ts
-            
+
             };
 
             return View(vm);
+        }
+
+        // GET: Owners/Create
+        public ActionResult Create()
+        {
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
+
+            WalkerFormViewModel vm = new WalkerFormViewModel()
+            {
+                Walker = new Walker(),
+                Neighborhoods = neighborhoods
+            };
+
+            return View(vm);
+        }
+
+        // POST: Owners/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Walker walker)   //Method overloading, two identical methods with different parameters
+        {
+            try
+            {
+                _walkerRepo.AddWalker(walker);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(walker);
+            }
+        }
+
+
+        // GET: WalkerController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            List<Neighborhood> neighborhoods = _neighborhoodRepo.GetAll();
+
+            WalkerFormViewModel vm = new WalkerFormViewModel()
+            {
+                Walker = _walkerRepo.GetWalkerById(id),
+                Neighborhoods = neighborhoods
+            };
+
+            return View(vm);
+        }
+
+        // POST: OwnerController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Walker walker)
+        {
+            try
+            {
+                _walkerRepo.UpdateWalker(walker);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(walker);
+            }
         }
 
         private int GetCurrentUserId()
