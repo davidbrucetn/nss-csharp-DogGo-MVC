@@ -25,7 +25,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Dogs" asp-action="Index"><span style="color:saddlebrown">Dogs</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark"  asp-area="" asp-controller="Dogs" asp-action="Create"><span style="color:saddlebrown">Add Dog</span></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Dogs" asp-action="Create"><span style="color:saddlebrown">Add Dog</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Walkers" asp-action="Index"><span style="color:darkorange">Dog Walkers</span></a>
@@ -34,10 +34,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Walkers" asp-action="Create"><span style="color:darkorange">Add a Walker</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark"  asp-area="" asp-controller="Owners" asp-action="Index"><span style="color:forestgreen" >Owners</span></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Owners" asp-action="Index"><span style="color:forestgreen">Owners</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark"  asp-area="" asp-controller="Owners" asp-action="Create"><span style="color:forestgreen">Add an Owner</span></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Owners" asp-action="Create"><span style="color:forestgreen">Add an Owner</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -60,6 +60,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
