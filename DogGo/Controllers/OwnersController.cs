@@ -90,7 +90,7 @@ namespace DogGo.Controllers
         // POST: Owners/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Owner owner)
+        public ActionResult Create(Owner owner)   //Method overloading, two identical methods with different parameters
         {
             try
             {
