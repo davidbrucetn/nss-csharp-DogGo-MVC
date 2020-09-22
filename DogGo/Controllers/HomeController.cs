@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DogGo.Controllers
 {
-    public class HomeController1 : Controller
+    public class HomeController : Controller
     {
         // GET: HomeController1
         public ActionResult Index()
