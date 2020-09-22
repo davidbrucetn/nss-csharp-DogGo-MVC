@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DogGo.Controllers
 {
-    
+
     public class WalkersController : Controller
     {
         private readonly IWalkerRepository _walkerRepo;
@@ -53,7 +53,7 @@ namespace DogGo.Controllers
 
             List<Walk> walks = _walkRepo.GetAllWalks(id);
             int TotalTime = 0;
-            foreach(Walk walk in walks) { TotalTime += walk.Duration; };
+            foreach (Walk walk in walks) { TotalTime += walk.Duration; };
             TimeSpan ts = TimeSpan.FromSeconds(TotalTime);
 
 
@@ -66,7 +66,7 @@ namespace DogGo.Controllers
                 Walks = walks,
                 TotalTime = TotalTime,
                 TS = ts
-            
+
             };
 
             return View(vm);
