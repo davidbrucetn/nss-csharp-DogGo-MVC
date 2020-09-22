@@ -9,3 +9,4 @@
 4. Added Walker/Details with Walks and formatting. (Book 2, Ch 5, Ex 2)
 5. Added Email-Only Authentication, (Book 2, Ch 6, Ex 1-3)
 6. Added Annotations to Dog, Owner, Walker models.
+7. Can add walks with dropdown for dogs and walkers.
