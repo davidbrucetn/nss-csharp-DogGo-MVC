@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using DogGo.Models;
@@ -9,6 +11,7 @@ using DogGo.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DogGo.Controllers
 {
@@ -65,13 +68,16 @@ namespace DogGo.Controllers
             return View();
         }
 
-        // GET: Owners/Create
+        // GET: Walks/Create
         public ActionResult Create()
         {
             int ownerId = GetCurrentUserId();
             Owner owner = _ownerRepo.GetOwnerById(ownerId);
             List<Walker> walkers = _walkerRepo.GetWalkersInNeighborhood(owner.NeighborhoodId);
             List<Dog> dogs = _dogRepo.GetDogsByOwnerId(ownerId);
+            List<SelectListItem> items = new List<SelectListItem>();
+
+
 
             WalkFormViewModel vm = new WalkFormViewModel()
             {
@@ -90,13 +96,25 @@ namespace DogGo.Controllers
         {
             try
             {
+                walk.Duration = walk.Duration * 60;
                 _walkRepo.AddWalk(walk);
 
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                return View(walk);
+                int ownerId = GetCurrentUserId();
+                Owner owner = _ownerRepo.GetOwnerById(ownerId);
+                List<Walker> walkers = _walkerRepo.GetWalkersInNeighborhood(owner.NeighborhoodId);
+                List<Dog> dogs = _dogRepo.GetDogsByOwnerId(ownerId);
+
+                WalkFormViewModel vm = new WalkFormViewModel()
+                {
+                    Walk = new Walk(),
+                    Walkers = walkers,
+                    Dogs = dogs
+                };
+                return View(vm);
             }
         }
 
@@ -142,11 +160,6 @@ namespace DogGo.Controllers
             }
         }
 
-        public ActionResult Create(Walker walker)
-        {
-            throw new NotImplementedException();
-        }
-
-      
+       
     }
 }
